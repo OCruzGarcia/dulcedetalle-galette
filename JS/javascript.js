@@ -90,68 +90,124 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 // ==========================================================================
 // 6. CONTROL DEL FORMULARIO INTEGRADO (SUPABASE + MENSAJE DETALLADO WHATSAPP)
 // ==========================================================================
-const form = document.getElementById("cakeForm"); 
+const form = document.getElementById("cakeForm");
 
-if (form) {
-    form.addEventListener("submit", async function(e){ 
-        e.preventDefault(); 
-        
-        /* 6.1 CAPTURAR TODOS LOS DATOS INGRESADOS */ 
-        const nombre_completo = document.getElementById("nombre_completo").value; 
-        const telefono = document.getElementById("telefono").value; 
-        const direccion_entrega = document.getElementById("direccion_entrega").value; 
-        const tipo_evento = document.getElementById("tipo_evento").value; 
-        const tematica_pastel = document.getElementById("tematica_pastel").value; 
-        const sabor = document.getElementById("sabor").value; 
-        const peso = document.getElementById("peso").value; 
-        const fecha_evento = document.getElementById("fecha_evento").value; 
-        const descripcion = document.getElementById("descripcion").value; 
+form.addEventListener("submit", function(e){
 
-        /* 6.2 ENVIAR Y GUARDAR EN LA BASE DE DATOS DE SUPABASE */ 
-        const { error } = await client 
-            .from("pedidos") 
-            .insert([ 
-                { 
-                    nombre_completo, 
-                    telefono, 
-                    direccion_entrega, 
-                    tipo_evento, 
-                    tematica_pastel, 
-                    sabor, 
-                    peso, 
-                    fecha_evento, 
-                    descripcion 
-                } 
-            ]); 
+  e.preventDefault();
 
-        if (error) { 
-            alert("Error al guardar el pedido en la Base de Datos"); 
-            console.log(error); 
-            return; // Frena el proceso si ocurre un error con Supabase
-        } 
+  const message =
+`Hola Dulce Detalle ✨
 
-        /* 6.3 CONSTRUIR EL MENSAJE CON DISEÑO ESTILIZADO PARA WHATSAPP */ 
-        const phoneNumber = '50583750020';
-        const message = `¡Hola Dulce Detalle! 🌸 Me gustaría cotizar un pastel personalizado.\n\n` +
-                        `*Datos del Cliente:*\n` +
-                        `- Nombre: ${nombre_completo}\n` +
-                        `- Teléfono: ${telefono}\n` +
-                        `- Dirección: ${direccion_entrega || 'No especificada'}\n\n` +
-                        `*Detalles del Pedido:*\n` +
-                        `- Evento: ${tipo_evento} (Fecha: ${fecha_evento || 'Por definir'})\n` +
-                        `- Temática: ${tematica_pastel}\n` +
-                        `- Sabor: ${sabor}\n` +
-                        `- Peso: ${peso}\n\n` +
-                        `*Idea Adicional:*\n${descripcion || 'Sin especificaciones adicionales'}`;
+Quiero información para un pastel personalizado 🎂`;
 
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`; 
-        
-        /* 6.4 ABRIR PESTAÑA DE WHATSAPP Y REINICIAR EL FORMULARIO */
-        window.open(whatsappUrl, "_blank"); 
-        alert("¡Pedido registrado correctamente! Redirigiendo a WhatsApp... ✨"); 
-        form.reset(); 
-    });
-}
+  const phone = "50583750020";
+
+  const url =
+`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+
+});
+
+/* ================= FORMULARIO ================= */
+
+const form =
+  document.getElementById("cakeForm");
+
+/* GUARDAR PEDIDO */
+
+form.addEventListener("submit", async function(e){
+
+  e.preventDefault();
+
+  /* CAPTURAR DATOS */
+
+  const nombre_completo =
+    document.getElementById("nombre_completo").value;
+
+  const telefono =
+    document.getElementById("telefono").value;
+
+  const direccion_entrega =
+    document.getElementById("direccion_entrega").value;
+
+  const tipo_evento =
+    document.getElementById("tipo_evento").value;
+
+  const tematica_pastel =
+    document.getElementById("tematica_pastel").value;
+
+  const sabor =
+    document.getElementById("sabor").value;
+
+  const peso =
+    document.getElementById("peso").value;
+
+  const fecha_evento =
+    document.getElementById("fecha_evento").value;
+
+  const descripcion =
+    document.getElementById("descripcion").value;
+
+  /* INSERTAR EN SUPABASE */
+
+  const { error } = await client
+    .from("pedidos")
+    .insert([
+      {
+        nombre_completo,
+        telefono,
+        direccion_entrega,
+        tipo_evento,
+        tematica_pastel,
+        sabor,
+        peso,
+        fecha_evento,
+        descripcion
+      }
+    ]);
+
+  if(error){
+
+    console.log(error);
+
+    alert("Error al guardar pedido");
+
+    return;
+  }
+
+  alert("Pedido guardado correctamente ✨");
+
+  form.reset();
+
+});
+
+/* ================= WHATSAPP ================= */
+
+const whatsappBtn =
+  document.getElementById("whatsappBtn");
+
+whatsappBtn.addEventListener("click", ()=>{
+
+  const nombre =
+    document.getElementById("nombre_completo").value;
+
+  const mensaje =
+`Hola Dulce Detalle ✨
+
+Mi nombre es ${nombre}
+
+Quiero información para un pastel personalizado 🎂`;
+
+  const phone = "50583750020";
+
+  const url =
+`https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
+
+  window.open(url, "_blank");
+
+});
 
 // ==========================================================================
 // 7. CRUD - LEER PEDIDOS
