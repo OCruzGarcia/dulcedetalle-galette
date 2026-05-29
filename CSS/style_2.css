@@ -476,6 +476,56 @@ body{
   background:#bc0950;
 }
 
+/* ================= BOTONES FORMULARIO ================= */
+
+.buttons-grid{
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+
+  margin-top:10px;
+}
+
+/* BOTÓN WHATSAPP */
+
+.whatsapp-btn{
+
+  width:100%;
+
+  border:none;
+  cursor:pointer;
+
+  background:#25D366;
+  color:white;
+
+  padding:20px;
+
+  border-radius:60px;
+
+  font-size:1.1rem;
+  font-weight:600;
+
+  transition:0.3s ease;
+}
+
+.whatsapp-btn:hover{
+
+  transform:translateY(-3px);
+
+  background:#1ebe5d;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+  .buttons-grid{
+
+    grid-template-columns:1fr;
+  }
+}
+
 /* ================= IMAGEN ================= */
 
 .campaign-image{
