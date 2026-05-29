@@ -369,73 +369,114 @@
 
   <!-- FORMULARIO -->
 
-  <form class="cake-form" id="cakeForm">
+<form class="cake-form" id="cakeForm">
 
-    <div class="input-group">
-      <input id="nombre_completo" type="text" name="nombre_completo"  placeholder="Nombre completo" required>
-      <input id="telefono" name="telefono" type="tel" placeholder="Teléfono" required>
-    </div>
+  <div class="input-group">
 
-    <input id="direccion_entrega" name="direccion_entrega" type="text" placeholder="Dirección de entrega">
+    <input
+      type="text"
+      id="nombre_completo"
+      placeholder="Nombre completo"
+      required
+    >
 
-    <!-- EVENTO -->
+    <input
+      type="tel"
+      id="telefono"
+      placeholder="Teléfono"
+      required
+    >
 
-    <div class="select-grid">
+  </div>
 
-      <select id="tipo_evento" name="tipo_evento">
-        <option>Tipo de evento</option>
-        <option>Cumpleaños</option>
-        <option>Boda</option>
-        <option>Bautizo</option>
-        <option>Otro</option>
-      </select>
+  <input
+    type="text"
+    id="direccion_entrega"
+    placeholder="Dirección de entrega"
+  >
 
-      <select id="tematica_pastel" name="tematica_pastel">
-        <option>Temática del pastel</option>
-        <option>Infantil</option>
-        <option>Elegante</option>
-        <option>Floral</option>
-        <option>Personalizada</option>
-      </select>
+  <!-- EVENTO -->
 
-    </div>
+  <div class="select-grid">
 
-    <div class="select-grid">
+    <select id="tipo_evento">
 
-      <select id="sabor" name="sabor">
-        <option>Sabor</option>
-        <option>Chocolate</option>
-        <option>Vainilla</option>
-        <option>Tres leches</option>
-        <option>Red Velvet</option>
-      </select>
+      <option value="">Tipo de evento</option>
+      <option>Cumpleaños</option>
+      <option>Boda</option>
+      <option>Bautizo</option>
+      <option>Otro</option>
 
-      <select id="peso" name="peso">
-        <option>Peso</option>
-        <option>1 libra</option>
-        <option>2 libras</option>
-        <option>3+ libras</option>
-      </select>
+    </select>
 
-    </div>
+    <select id="tematica_pastel">
 
-    <input 
-    id="fecha_evento" 
-    name="fecha_evento" 
-    type="date">
+      <option value="">Temática del pastel</option>
+      <option>Infantil</option>
+      <option>Elegante</option>
+      <option>Floral</option>
+      <option>Personalizada</option>
 
-    <textarea
-      id="descripcion" 
-      name="descripcion" 
-      rows="6"
-      placeholder="Cuéntanos cómo imaginas tu pastel…"
-    ></textarea>
+    </select>
 
-    <button type="submit" class="submit-btn">
-      Enviar y continuar por WhatsApp
+  </div>
+
+  <div class="select-grid">
+
+    <select id="sabor">
+
+      <option value="">Sabor</option>
+      <option>Chocolate</option>
+      <option>Vainilla</option>
+      <option>Tres leches</option>
+      <option>Red Velvet</option>
+
+    </select>
+
+    <select id="peso">
+
+      <option value="">Peso</option>
+      <option>1 libra</option>
+      <option>2 libras</option>
+      <option>3+ libras</option>
+
+    </select>
+
+  </div>
+
+  <input
+    type="date"
+    id="fecha_evento"
+  >
+
+  <textarea
+    rows="6"
+    id="descripcion"
+    placeholder="Cuéntanos cómo imaginas tu pastel…"
+  ></textarea>
+
+  <!-- BOTONES -->
+
+  <div class="buttons-grid">
+
+    <button
+      type="submit"
+      class="submit-btn"
+    >
+      Guardar Pedido
     </button>
 
-  </form>
+    <button
+      type="button"
+      class="whatsapp-btn"
+      id="whatsappBtn"
+    >
+      Continuar por WhatsApp
+    </button>
+
+  </div>
+
+</form>
 
 </section>
 
