@@ -148,7 +148,7 @@ Quiero información para un pastel personalizado 🎂
 📝 Descripción:
 ${descripcion}`;
 
-  const phone = "50583750020";
+  const phone = "50586442219";
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
 
   // Redirección y limpieza
