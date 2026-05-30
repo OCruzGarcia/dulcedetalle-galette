@@ -91,7 +91,8 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 // 6. CONTROL DEL FORMULARIO INTEGRADO (SUPABASE + MENSAJE DETALLADO WHATSAPP)
 // ==========================================================================
 // CORRECCIÓN: Única declaración de formulario admitida
-const form = document.getElementById("cakeForm");
+const form = 
+    document.getElementById("cakeForm");
 
 // CORRECCIÓN: Unificado en un único evento Submit con guardado + redirección externa
 form.addEventListener("submit", async function(e){
