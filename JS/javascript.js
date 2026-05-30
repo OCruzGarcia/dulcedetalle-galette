@@ -65,7 +65,6 @@ animatedElements.forEach((el) => {
 const backToTopBtn = document.getElementById("btn-back-to-top");
 
 window.addEventListener("scroll", () => {
-    // Si el usuario baja más de 400px en la página, se muestra el botón
     if (window.scrollY > 400) {
         backToTopBtn.classList.add("show-btn");
     } else {
@@ -76,82 +75,41 @@ window.addEventListener("scroll", () => {
 backToTopBtn.addEventListener("click", () => {
     window.scrollTo({
         top: 0,
-        behavior: "smooth" // Desplazamiento suave y elegante
+        behavior: "smooth"
     });
 });
 
 // ==========================================================================
 // 5. INICIALIZACIÓN DE CLIENTE SUPABASE
 // ==========================================================================
-const SUPABASE_URL = "https://fnzqwcoktqfibyuckgis.supabase.co/rest/v1/"; 
+// CORRECCIÓN: URL base corregida sin el '/rest/v1/'
+const SUPABASE_URL = "https://fnzqwcoktqfibyuckgis.supabase.co"; 
 const SUPABASE_KEY = "sb_publishable_rOkK8jQgfjqM4GHpwuhYAQ_mMDWdeRz"; 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); 
 
 // ==========================================================================
 // 6. CONTROL DEL FORMULARIO INTEGRADO (SUPABASE + MENSAJE DETALLADO WHATSAPP)
 // ==========================================================================
+// CORRECCIÓN: Única declaración de formulario admitida
 const form = document.getElementById("cakeForm");
 
-form.addEventListener("submit", function(e){
-
-  e.preventDefault();
-
-  const message =
-`Hola Dulce Detalle ✨
-
-Quiero información para un pastel personalizado 🎂`;
-
-  const phone = "50583750020";
-
-  const url =
-`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
-  window.open(url, "_blank");
-
-});
-
-/* ================= FORMULARIO ================= */
-
-const form =
-  document.getElementById("cakeForm");
-
-/* GUARDAR PEDIDO */
-
+// CORRECCIÓN: Unificado en un único evento Submit con guardado + redirección externa
 form.addEventListener("submit", async function(e){
 
   e.preventDefault();
 
   /* CAPTURAR DATOS */
-
-  const nombre_completo =
-    document.getElementById("nombre_completo").value;
-
-  const telefono =
-    document.getElementById("telefono").value;
-
-  const direccion_entrega =
-    document.getElementById("direccion_entrega").value;
-
-  const tipo_evento =
-    document.getElementById("tipo_evento").value;
-
-  const tematica_pastel =
-    document.getElementById("tematica_pastel").value;
-
-  const sabor =
-    document.getElementById("sabor").value;
-
-  const peso =
-    document.getElementById("peso").value;
-
-  const fecha_evento =
-    document.getElementById("fecha_evento").value;
-
-  const descripcion =
-    document.getElementById("descripcion").value;
+  const nombre_completo = document.getElementById("nombre_completo").value;
+  const telefono = document.getElementById("telefono").value;
+  const direccion_entrega = document.getElementById("direccion_entrega").value;
+  const tipo_evento = document.getElementById("tipo_evento").value;
+  const tematica_pastel = document.getElementById("tematica_pastel").value;
+  const sabor = document.getElementById("sabor").value;
+  const peso = document.getElementById("peso").value;
+  const fecha_evento = document.getElementById("fecha_evento").value;
+  const descripcion = document.getElementById("descripcion").value;
 
   /* INSERTAR EN SUPABASE */
-
   const { error } = await client
     .from("pedidos")
     .insert([
@@ -169,43 +127,32 @@ form.addEventListener("submit", async function(e){
     ]);
 
   if(error){
-
-    console.log(error);
-
+    console.error(error);
     alert("Error al guardar pedido");
-
     return;
   }
 
-  alert("Pedido guardado correctamente ✨");
+  /* CONSTRUIR MENSAJE DETALLADO PARA WHATSAPP */
+  const mensaje = `Hola Dulce Detalle ✨
 
-  form.reset();
+Mi nombre es ${nombre_completo}
 
-});
+Quiero información para un pastel personalizado 🎂
 
-/* ================= WHATSAPP ================= */
+📞 Teléfono: ${telefono}
+🎉 Evento: ${tipo_evento}
+🎂 Sabor: ${sabor}
+⚖️ Peso: ${peso}
 
-const whatsappBtn =
-  document.getElementById("whatsappBtn");
-
-whatsappBtn.addEventListener("click", ()=>{
-
-  const nombre =
-    document.getElementById("nombre_completo").value;
-
-  const mensaje =
-`Hola Dulce Detalle ✨
-
-Mi nombre es ${nombre}
-
-Quiero información para un pastel personalizado 🎂`;
+📝 Descripción:
+${descripcion}`;
 
   const phone = "50583750020";
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
 
-  const url =
-`https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
-
+  // Redirección y limpieza
   window.open(url, "_blank");
+  form.reset();
 
 });
 
@@ -215,7 +162,7 @@ Quiero información para un pastel personalizado 🎂`;
 async function obtenerPedidos() {
     const { data, error } = await client
         .from("pedidos")
-        .select("*"); // Selecciona todas las columnas
+        .select("*");
 
     if (error) {
         console.error("Error al obtener los pedidos:", error);
@@ -223,7 +170,6 @@ async function obtenerPedidos() {
     }
 
     console.log("Lista de pedidos recibida:", data);
-    // Aquí puedes usar un 'forEach' para pintar los pedidos en tu HTML
     return data;
 }
 
@@ -233,8 +179,8 @@ async function obtenerPedidos() {
 async function actualizarSaborPedido(idPedido, nuevoSabor) {
     const { data, error } = await client
         .from("pedidos")
-        .update({ sabor: nuevoSabor }) // Objeto con los campos que quieres cambiar
-        .eq("id", idPedido);           // .eq significa "equal" (Donde id sea igual a idPedido)
+        .update({ sabor: nuevoSabor })
+        .eq("id", idPedido);
 
     if (error) {
         alert("No se pudo actualizar el pedido");
@@ -243,20 +189,19 @@ async function actualizarSaborPedido(idPedido, nuevoSabor) {
     }
 
     alert("¡Pedido actualizado con éxito! 🎂");
-    obtenerPedidos(); // Refrescas la lista visual
+    obtenerPedidos();
 }
 
 // ==========================================================================
 // 9. CRUD - BORRAR PEDIDO
 // ==========================================================================
 async function eliminarPedido(idPedido) {
-    // Es buena práctica pedir confirmación antes de borrar
     if (!confirm("¿Seguro que deseas eliminar este pedido?")) return;
 
     const { error } = await client
         .from("pedidos")
         .delete()
-        .eq("id", idPedido); // Asegúrate siempre de poner el .eq para no borrar toda la tabla
+        .eq("id", idPedido);
 
     if (error) {
         alert("Error al eliminar el pedido");
@@ -265,5 +210,5 @@ async function eliminarPedido(idPedido) {
     }
 
     alert("Pedido eliminado correctamente.");
-    obtenerPedidos(); // Refrescas la lista visual para que desaparezca
+    obtenerPedidos();
 }
