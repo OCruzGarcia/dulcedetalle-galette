@@ -8,7 +8,12 @@
 
 body{
   font-family:'Poppins', sans-serif;
-  background:#EDEDED;
+  background:
+    linear-gradient(
+        135deg,
+        #ffd6e0,
+        #ffc2d1
+    );
   overflow-x:hidden;
 }
 /* ==========================================================================
